@@ -1,0 +1,9 @@
+# vscode
+
+# flask
+.venv
+
+# python
+.pytest_cache
+.coverage
+cov_html
