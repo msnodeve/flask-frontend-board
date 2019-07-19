@@ -11,7 +11,7 @@ MANAGER = Manager(APP)
 @MANAGER.command
 def run():
     """ Command application run """
-    APP.run()
+    APP.run(port=5001)
 
 if __name__ == '__main__':
     MANAGER.run()
