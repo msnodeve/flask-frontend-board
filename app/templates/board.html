@@ -13,7 +13,7 @@
     </thead>
     <tbody align="left">
         {% for i in range(num) %}
-        <tr>
+        <tr onClick="location.href='/story/{{datas[i]['id']}}'">
             <td>{{datas[i]['id']}}</td>
             <td>{{datas[i]['title']}}</td>
             <td>{{datas[i]['name']}}</td>

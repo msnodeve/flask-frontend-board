@@ -102,4 +102,13 @@ def create_app() -> (Flask):
     def logout():
         session['logged_in'] = False
         return render_template('home.html')
+
+    @app.route('/story/<int:post_id>', methods=['GET', 'POST'])
+    def story(post_id):
+        if request.method == 'GET':
+            response = requests.get(URL+"/posts/"+str(post_id), headers=HEADERS)
+            if response.status_code == HTTPStatus.OK:
+                response = response.json()
+            return render_template('story.html', resp=response)
+        return render_template('err.html')
     return app
