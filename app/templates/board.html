@@ -1,0 +1,45 @@
+{% extends "index.html" %}
+{% block content %}
+{% if session['logged_in'] %}
+<link rel="stylesheet" href="../static/css/bootstrap.css">
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th>번호</th>
+            <th>제목</th>
+            <th>작성자</th>
+            <th>날짜</th>
+        </tr>
+    </thead>
+    <tbody align="left">
+        {% for i in range(num) %}
+        <tr>
+            <td>{{datas[i]['id']}}</td>
+            <td>{{datas[i]['title']}}</td>
+            <td>{{datas[i]['name']}}</td>
+            <td>{{datas[i]['created']}}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<a class="btn btn-default pull-right" href="/write">글 쓰기</a>
+<hr />
+<div class="text-center">
+    <ul class="pagination">
+        <li><a href="#">1</a></li>
+        <li><a href="#">2</a></li>
+        <li><a href="#">3</a></li>
+        <li><a href="#">4</a></li>
+        <li><a href="#">5</a></li>
+    </ul>
+</div>
+<script src="../static/js/jquery-3.1.1.js"></script>
+<script src="../static/js/bootstrap.js"></script>
+{% else %}
+<h1>RESTPlus API Board에 오신 것을 환영합니다.</h1>
+<p class="lead">
+    회원 가입 부터 게시판 글쓰기 CRUD를 한번에 볼 수 있는 프로젝트 입니다.<br>
+    회원 가입 부터 !
+</p>
+{% endif %}
+{% endblock %}

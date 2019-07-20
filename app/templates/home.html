@@ -1,15 +1,10 @@
 {% extends "index.html" %}
 {% block content %}
 {% if session['logged_in'] %}
-    <!-- {% if data %}
-    <h3>{{data}}</h3>
-    {% else %}
-    <a href="/logout">Logout</a> <br> <br>
-    <form action="" method="POST">
-        <input type="username" name="username" placeholder="User's Name">
-        <input type="submit" value="Finds">
-    </form>
-    {% endif %} -->
+<h1>RESTPlus API Board에 오신 것을 환영합니다.</h1>
+<p class="lead">
+    로그인 되었습니다!
+</p>
 {% else %}
 <h1>RESTPlus API Board에 오신 것을 환영합니다.</h1>
 <p class="lead">

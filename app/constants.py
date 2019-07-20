@@ -39,3 +39,6 @@ DELETE = support_codes(unsupport_codes=[
 						STATUS_CODE.CONFLICT,
 						STATUS_CODE.METHOD_NOT_ALLOWED,
 						STATUS_CODE.NOT_IMPLEMENTED])
+
+USER_NAME = ''
+USER_AUTHOR = 0
