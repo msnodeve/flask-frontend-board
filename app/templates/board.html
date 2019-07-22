@@ -16,7 +16,7 @@
         </tr>
     </thead>
     <tbody align="left">
-        {% if num != 0 %}
+        {% if num >= 0 %}
             {% for i in range(num) %}
                 <tr onClick="location.href='/story/{{datas[i]['id']}}'">
                     <td>{{datas[i]['id']}}</td>

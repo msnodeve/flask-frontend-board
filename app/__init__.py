@@ -44,9 +44,8 @@ def create_app() -> (Flask):
             # 유효성 검사(추후 문자열 패턴 적용)
             if (len(name) < 4) or (password != repassword):
                 return render_template('err_register.html')
-
-            password = str(bcrypt.hashpw(password.encode('UTF-8'), bcrypt.gensalt()))
             # name, email, password를 post형식으로 요청
+            # password = str(bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt()))
             response = requests.post(URL+"/users", headers=HEADERS, data=json.dumps(
                 {'name': name, 'email': email, 'password': password}))
             # 요청에 성공했다면 home.html
@@ -60,8 +59,6 @@ def create_app() -> (Flask):
     @app.route('/login', methods=['GET', 'POST'])
     def login():
         """ sign in page """
-        global USER_NAME
-        global USER_AUTHOR
         if request.method == 'POST':
             name = request.form.get('name')
             password = request.form.get('password')
@@ -70,9 +67,9 @@ def create_app() -> (Flask):
             ))
             if response.status_code == HTTPStatus.OK:
                 response = response.json()
-                ENCODE_SECRET_KEY = response['access_token']
-                USER_NAME = name
-                USER_AUTHOR = response['user']['id']
+                session['user_name'] = name
+                session['user_id'] = response['user']['id']
+                session['api_session_token'] = response['access_token']
                 session['logged_in'] = True
                 return render_template('home.html')
         
@@ -81,13 +78,19 @@ def create_app() -> (Flask):
     @app.route('/board', methods=['GET', 'POST'])
     def board():
         """ board page """
-        response = requests.get(URL+"/posts", headers=HEADERS)
-        if response.status_code == HTTPStatus.OK:
-            response = response.json()
-            return render_template('board.html', num=len(response), datas=response)
+        if request.method=='GET':
+            HEADERS = {'Content-Type': 'application/json; charset=utf-8', "Authorization": session['api_session_token']}
+            response = requests.get(URL+"/posts", headers=HEADERS)
+            if response.status_code == HTTPStatus.OK:
+                response = response.json()
+                return render_template('board.html', num=len(response), datas=response)
+            elif response.status_code == HTTPStatus.NOT_FOUND:
+                return render_template('board.html', num=0, datas=response)
+            else:
+                return render_template('err.html')
         else:
-            return render_template('err.html')
-        return render_template('home.html')
+            # 로그인 시확인하게 하기
+            return render_template('home.html')
 
     @app.route('/write', methods=['GET', 'POST'])
     def write():
@@ -95,7 +98,7 @@ def create_app() -> (Flask):
             title = request.form.get('title')
             body = request.form.get('body')
             response = requests.post(URL+"/posts", headers=HEADERS, data=json.dumps(
-                { 'name': USER_NAME, 'title': title, 'body': body, 'author_id': int(USER_AUTHOR)}
+                { 'name': session['user_name'], 'title': title, 'body': body, 'author_id': int(session['user_id'])}
             ))
             if response.status_code == HTTPStatus.OK:
                 response = requests.get(URL+"/posts", headers=HEADERS).json()
@@ -112,7 +115,7 @@ def create_app() -> (Flask):
     @app.route('/story/<int:post_id>', methods=['GET', 'POST'])
     def story(post_id):
         if request.method == 'GET':
-            response = requests.get(URL+"/posts/"+str(post_id), headers=HEADERS)
+            response = requests.get(URL+"/posts/"+str(session['user_id']), headers=HEADERS)
             if response.status_code == HTTPStatus.OK:
                 response = response.json()
             return render_template('story.html', resp=response)
