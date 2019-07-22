@@ -1,40 +1,40 @@
 {% extends "index.html" %}
 {% block content %}
 {% if session['logged_in'] %}
-<link rel="stylesheet" href="../static/css/bootstrap.css">
-<table class="table table-hover">
+
+<link href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" rel="stylesheet">
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+
+<table id="table_id" class="display" style="width:100%">
     <thead>
         <tr>
             <th>번호</th>
             <th>제목</th>
             <th>작성자</th>
-            <th>날짜</th>
+            <th>작성일</th>
         </tr>
     </thead>
     <tbody align="left">
-        {% for i in range(num) %}
-        <tr onClick="location.href='/story/{{datas[i]['id']}}'">
-            <td>{{datas[i]['id']}}</td>
-            <td>{{datas[i]['title']}}</td>
-            <td>{{datas[i]['name']}}</td>
-            <td>{{datas[i]['created']}}</td>
-        </tr>
-        {% endfor %}
+        {% if num != 0 %}
+            {% for i in range(num) %}
+                <tr onClick="location.href='/story/{{datas[i]['id']}}'">
+                    <td>{{datas[i]['id']}}</td>
+                    <td>{{datas[i]['title']}}</td>
+                    <td>{{datas[i]['name']}}</td>
+                    <td>{{datas[i]['created']}}</td>
+                </tr>
+            {% endfor%}
+        {% else %}
+        {% endif %}
     </tbody>
 </table>
-<a class="btn btn-default pull-right" href="/write">글 쓰기</a>
-<hr />
-<div class="text-center">
-    <ul class="pagination">
-        <li><a href="#">1</a></li>
-        <li><a href="#">2</a></li>
-        <li><a href="#">3</a></li>
-        <li><a href="#">4</a></li>
-        <li><a href="#">5</a></li>
-    </ul>
-</div>
-<script src="../static/js/jquery-3.1.1.js"></script>
-<script src="../static/js/bootstrap.js"></script>
+<script>
+$(document).ready(function() {
+    $('#table_id').DataTable();
+} );
+</script>
+<a class="btn btn-default pull-left" href="/write">글 쓰기</a>
 {% else %}
 <h1>RESTPlus API Board에 오신 것을 환영합니다.</h1>
 <p class="lead">

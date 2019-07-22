@@ -42,3 +42,4 @@ DELETE = support_codes(unsupport_codes=[
 
 USER_NAME = ''
 USER_AUTHOR = 0
+ENCODE_SECRET_KEY = ''

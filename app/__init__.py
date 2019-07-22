@@ -3,11 +3,13 @@
 """
 
 import requests
+import jwt
+import bcrypt
 import json
 from http import HTTPStatus
 from flask import Flask, render_template, session, request, jsonify
 from flask_bootstrap import Bootstrap
-from app.constants import USER_NAME, USER_AUTHOR
+from app.constants import USER_NAME, USER_AUTHOR, ENCODE_SECRET_KEY
 
 URL = 'http://localhost:5000'
 HEADERS = {'Content-Type': 'application/json; charset=utf-8'}
@@ -38,9 +40,12 @@ def create_app() -> (Flask):
             email = request.form.get('email')
             password = request.form.get('password')
             repassword = request.form.get('re-password')
+            # import pdb; pdb.set_trace()
             # 유효성 검사(추후 문자열 패턴 적용)
             if (len(name) < 4) or (password != repassword):
                 return render_template('err_register.html')
+
+            password = str(bcrypt.hashpw(password.encode('UTF-8'), bcrypt.gensalt()))
             # name, email, password를 post형식으로 요청
             response = requests.post(URL+"/users", headers=HEADERS, data=json.dumps(
                 {'name': name, 'email': email, 'password': password}))
@@ -60,11 +65,12 @@ def create_app() -> (Flask):
         if request.method == 'POST':
             name = request.form.get('name')
             password = request.form.get('password')
-            response = requests.post(URL+"/users/auth", headers=HEADERS, data=json.dumps(
+            response = requests.post(URL+"/user/auth", headers=HEADERS, data=json.dumps(
                 {'name' : name, 'password':password}
             ))
             if response.status_code == HTTPStatus.OK:
                 response = response.json()
+                ENCODE_SECRET_KEY = response['access_token']
                 USER_NAME = name
                 USER_AUTHOR = response['user']['id']
                 session['logged_in'] = True

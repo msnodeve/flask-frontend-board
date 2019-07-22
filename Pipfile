@@ -14,6 +14,8 @@ flask = "*"
 flask-script = "*"
 flask-bootstrap = "*"
 requests = "*"
+pyjwt = "*"
+bcrypt = "*"
 
 [requires]
 python_version = "3.7"
