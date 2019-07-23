@@ -121,3 +121,5 @@ def create_app() -> (Flask):
             return render_template('story.html', resp=response)
         return render_template('err.html')
     return app
+
+# Testcode 가능한가?
