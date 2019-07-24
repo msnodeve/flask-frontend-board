@@ -1,0 +1,45 @@
+{% extends "index.html" %}
+{% block content %}
+{% if session['logged_in'] %}
+
+<link href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" rel="stylesheet">
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+
+<table id="table_id" class="display" style="width:100%">
+    <thead>
+        <tr>
+            <th>번호</th>
+            <th>제목</th>
+            <th>작성자</th>
+            <th>작성일</th>
+        </tr>
+    </thead>
+    <tbody align="left">
+        {% if num >= 0 %}
+            {% for i in range(num) %}
+                <tr onClick="location.href='/story/{{datas[i]['id']}}'">
+                    <td>{{datas[i]['id']}}</td>
+                    <td>{{datas[i]['title']}}</td>
+                    <td>{{datas[i]['name']}}</td>
+                    <td>{{datas[i]['created']}}</td>
+                </tr>
+            {% endfor%}
+        {% else %}
+        {% endif %}
+    </tbody>
+</table>
+<script>
+$(document).ready(function() {
+    $('#table_id').DataTable();
+} );
+</script>
+<a class="btn btn-default pull-left" href="/write">글 쓰기</a>
+{% else %}
+<h1>RESTPlus API Board에 오신 것을 환영합니다.</h1>
+<p class="lead">
+    회원 가입 부터 게시판 글쓰기 CRUD를 한번에 볼 수 있는 프로젝트 입니다.<br>
+    회원 가입 부터 !
+</p>
+{% endif %}
+{% endblock %}

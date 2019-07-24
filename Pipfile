@@ -7,10 +7,15 @@ verify_ssl = true
 pylint = "*"
 pytest = "*"
 pytest-cov = "*"
+autopep8 = "*"
 
 [packages]
 flask = "*"
 flask-script = "*"
+flask-bootstrap = "*"
+requests = "*"
+pyjwt = "*"
+bcrypt = "*"
 
 [requires]
 python_version = "3.7"
