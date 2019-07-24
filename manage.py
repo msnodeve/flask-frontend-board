@@ -1,5 +1,5 @@
 """
-    manage file
+    APP manage file
 """
 
 from flask_script import Manager
