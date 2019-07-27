@@ -1,0 +1,11 @@
+{% extends "ok_base.html" %}
+{% block okcontent %}
+{% if user_id %}
+<h3>'{{user_id}}'님 회원가입이 완료 되었습니다.</h3>
+<a href="login"><h2>로그인</h2></a>
+{% else %}
+<h3>회원 가입이 완료 되지 않았습니다.</h3>
+{% endif %}
+<br>
+</hr>
+{% endblock %}

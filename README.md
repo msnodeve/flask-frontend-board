@@ -4,7 +4,25 @@ python 개발 환경부터 API, 게시판까지 만들기
 
 ---
 
-### **What?**
+
+
+## Preview
+
+***
+
+![index](/images/index.png)
+
+![do_registe](/images/do_registe.png)
+
+![home](/images/home.png)
+
+![board](/images/board.png)
+
+![story](/images/story.png)
+
+
+
+### What?
 
 > 왜 해야 하는가
 

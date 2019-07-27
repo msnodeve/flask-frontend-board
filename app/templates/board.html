@@ -1,0 +1,42 @@
+{% extends "index.html" %}
+
+{% block heads %}
+<link href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" rel="stylesheet">
+{% endblock %}
+
+{% block bodys %}
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+{% endblock %}
+
+{% block content %}
+<table id="table_id" class="display" style="width:100%">
+    <thead>
+        <tr>
+            <th>번호</th>
+            <th>제목</th>
+            <th>작성자</th>
+            <th>작성일</th>
+        </tr>
+    </thead>
+    <tbody align="left">
+        {% if num >= 0 %}
+            {% for i in range(num) %}
+                <tr onClick="location.href='/story/{{posts[i]['id']}}'">
+                    <td>{{posts[i]['id']}}</td>
+                    <td>{{posts[i]['title']}}</td>
+                    <td>{{posts[i]['author_id']}}</td>
+                    <td>{{posts[i]['created']}}</td>
+                </tr>
+            {% endfor%}
+        {% else %}
+        {% endif %}
+    </tbody>
+</table>
+<script>
+$(document).ready(function() {
+    $('#table_id').DataTable();
+} );
+</script>
+<a class="btn btn-default pull-left" href="/write">글 쓰기</a>
+{% endblock %}
